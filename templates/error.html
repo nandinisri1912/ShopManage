@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}Database error{% endblock %}
+{% block content %}<section class="panel"><h1>Database connection problem</h1><p>{{ message }}</p><p>Check that MySQL Server is running and that your DB_PASSWORD setting is correct.</p></section>{% endblock %}

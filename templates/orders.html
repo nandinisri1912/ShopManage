@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Orders · ShopManage{% endblock %}
+{% block content %}
+<section class="page-heading"><div><p class="eyebrow">SALES</p><h1>Orders</h1><p class="muted">Review purchases and order status.</p></div><a class="btn" href="{{ url_for('new_order') }}">＋ Create order</a></section>
+<section class="panel">{% if orders %}<div class="table-wrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th><th></th></tr></thead><tbody>
+{% for o in orders %}<tr><td><strong>#{{ o.order_id }}</strong></td><td>{{ o.customer_name }}</td><td>{{ o.order_date }}</td><td>₹{{ "%.2f"|format(o.total_amount) }}</td><td><span class="status {{ o.status|lower }}">{{ o.status }}</span></td><td><a href="{{ url_for('order_detail', order_id=o.order_id) }}">Details →</a></td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty">No orders have been placed yet.</div>{% endif %}</section>
+{% endblock %}

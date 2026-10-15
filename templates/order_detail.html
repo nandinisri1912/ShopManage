@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Order #{{ order.order_id }} · ShopManage{% endblock %}
+{% block content %}
+<section class="page-heading"><div><p class="eyebrow">ORDER DETAILS</p><h1>Order #{{ order.order_id }}</h1><p class="muted">Placed on {{ order.order_date }}</p></div><a class="text-link" href="{{ url_for('orders') }}">← All orders</a></section>
+<div class="detail-grid"><section class="panel"><h2>Customer</h2><p><strong>{{ order.customer_name }}</strong></p><p>{{ order.email }}</p><p>{{ order.phone or 'No phone provided' }}</p><p>{{ order.address or 'No address provided' }}</p></section>
+<section class="panel"><h2>Order summary</h2><p class="big-total">₹{{ "%.2f"|format(order.total_amount) }}</p><p>Status: <span class="status {{ order.status|lower }}">{{ order.status }}</span></p><form method="post" action="{{ url_for('update_order_status', order_id=order.order_id) }}" class="status-form"><label>Update status<select name="status">{% for s in ['Placed','Completed','Cancelled'] %}<option value="{{ s }}" {% if order.status == s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select></label><button class="btn secondary">Update</button></form></section></div>
+<section class="panel"><h2>Items</h2>{% if items %}<div class="table-wrap"><table><thead><tr><th>Product</th><th>Unit price</th><th>Quantity</th><th>Line total</th></tr></thead><tbody>{% for item in items %}<tr><td>{{ item.product_name }}</td><td>₹{{ "%.2f"|format(item.unit_price) }}</td><td>{{ item.quantity }}</td><td>₹{{ "%.2f"|format(item.line_total) }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="muted">No item rows were found for this order.</p>{% endif %}</section>
+{% endblock %}

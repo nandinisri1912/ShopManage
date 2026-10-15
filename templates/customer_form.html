@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Add customer · ShopManage{% endblock %}
+{% block content %}
+<section class="page-heading"><div><p class="eyebrow">CUSTOMER DIRECTORY</p><h1>Add customer</h1><p class="muted">Name and email are required.</p></div><a class="text-link" href="{{ url_for('customers') }}">← Back to customers</a></section>
+<form class="panel form-panel" method="post">
+<label>Customer name *<input name="customer_name" required maxlength="120"></label>
+<div class="form-grid"><label>Email address *<input type="email" name="email" required maxlength="150"></label><label>Phone number<input name="phone" maxlength="25"></label></div>
+<label>Address<textarea name="address" rows="3"></textarea></label>
+<div class="form-actions"><button class="btn">Save customer</button><a class="btn secondary" href="{{ url_for('customers') }}">Cancel</a></div>
+</form>
+{% endblock %}

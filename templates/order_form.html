@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Create order · ShopManage{% endblock %}
+{% block content %}
+<section class="page-heading"><div><p class="eyebrow">SALES</p><h1>Create order</h1><p class="muted">Choose a customer and enter quantities for products.</p></div><a class="text-link" href="{{ url_for('orders') }}">← Back to orders</a></section>
+{% if not customers %}<div class="notice">Add a customer before placing an order. <a href="{{ url_for('add_customer') }}">Add customer →</a></div>{% elif not products %}<div class="notice">There are no products in stock. Add products or update inventory first. <a href="{{ url_for('add_product') }}">Add product →</a></div>{% else %}
+<form class="panel form-panel" method="post" id="order-form">
+<label>Customer *<select name="customer_id" required><option value="">Select a customer</option>{% for c in customers %}<option value="{{ c.customer_id }}">{{ c.customer_name }} — {{ c.email }}</option>{% endfor %}</select></label>
+<h2 class="subheading">Order items</h2>
+<div class="table-wrap"><table><thead><tr><th>Product</th><th>Unit price</th><th>Available</th><th>Quantity</th><th>Line total</th></tr></thead><tbody>
+{% for p in products %}<tr data-price="{{ p.price }}"><td>{{ p.product_name }}</td><td>₹{{ "%.2f"|format(p.price) }}</td><td>{{ p.quantity }}</td><td><input class="qty-input" type="number" name="qty_{{ p.product_id }}" min="0" max="{{ p.quantity }}" value="0" data-stock="{{ p.quantity }}" aria-label="Quantity for {{ p.product_name }}"></td><td class="line-total">₹0.00</td></tr>{% endfor %}
+</tbody></table></div>
+<div class="order-total">Order total <strong id="order-total">₹0.00</strong></div>
+<div class="form-actions"><button class="btn" type="submit">Place order</button><a class="btn secondary" href="{{ url_for('orders') }}">Cancel</a></div>
+</form>
+{% endif %}
+{% endblock %}
